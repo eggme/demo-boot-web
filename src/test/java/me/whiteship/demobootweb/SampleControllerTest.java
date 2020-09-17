@@ -15,6 +15,7 @@ import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -24,13 +25,20 @@ public class SampleControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    PersonRepository personRepository;
+
     @Test
     public void hello() throws Exception {
-        String msg = "hello Person{name='seungjun'}";
+
+        Person person = new Person();
+        person.setName("seungjun");
+        Person savedPerson = personRepository.save(person);
+
         this.mockMvc.perform(get("/hello")
-                                .param("name", "seungjun"))
+                                .param("id", savedPerson.getId().toString()))
                 .andDo(print())
-                .andExpect(content().string(msg));
+                .andExpect(content().string("hello seungjun"));
     }
 
 }

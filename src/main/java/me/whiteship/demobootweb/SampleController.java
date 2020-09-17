@@ -19,8 +19,8 @@ public class SampleController {
     // ex) localhost:8080/hello?name=seungjun
 
     @GetMapping("/hello")
-    public String hello(@RequestParam("name") Person person){
-        return "hello "+ person;
+    public String hello(@RequestParam("id") Person person){
+        return "hello "+ person.getName();
     }
 
 }
